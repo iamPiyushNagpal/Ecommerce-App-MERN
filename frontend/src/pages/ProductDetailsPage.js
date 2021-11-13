@@ -1,13 +1,24 @@
-import { Box, VStack, Flex, Heading, Text, Container, Image, Button, Table, Tbody, Tr, Td } from "@chakra-ui/react";
+import { VStack, Flex, Heading, Text, Container, Image, Button, Table, Tbody, Tr, Td } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import products from "../products";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Rating from "../components/Rating";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 
 const ProductDetailsPage = () => {
 
     const { id } = useParams();
-    const product = products.find(p => p._id === id);
+
+    const [product, setProduct] = useState({});
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const { data } = await axios.get(`/api/products/${id}`);
+            setProduct(data);
+        }
+
+        fetchProduct();
+    }, []);
 
     return (
         <Container maxW="container.xl">
