@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import store from './store';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <ChakraProvider theme={extendTheme({
       fonts: {
         body: 'Poppins',
@@ -13,7 +15,7 @@ ReactDOM.render(
     })}>
       <App />
     </ChakraProvider>
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
