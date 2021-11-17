@@ -3,7 +3,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 
 function App() {
@@ -12,10 +12,10 @@ function App() {
       <div className="App">
         <Header />
         <div className="main">
-          <Routes>
-            <Route path="/" exact element={<HomePage />} />
-            <Route path="/product/:id" element={<ProductDetailsPage />} />
-          </Routes>
+          <Switch>
+            <Route path="/" exact><HomePage /></Route>
+            <Route path="/product/:id"><ProductDetailsPage /></Route>
+          </Switch>
         </div>
         <Footer />
       </div>
