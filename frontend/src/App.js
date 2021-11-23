@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Switch>
             <Route path="/" exact><HomePage /></Route>
             <Route path="/product/:id"><ProductDetailsPage /></Route>
+            <Route path="/cart/:id?" ><CartPage /></Route>
           </Switch>
         </div>
         <Footer />

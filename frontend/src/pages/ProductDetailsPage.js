@@ -1,14 +1,21 @@
-import { VStack, Flex, Heading, Text, Container, Image, Button, Table, Tbody, Tr, Td } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import {
+    VStack, Flex, Heading, Text, Container, Image, Button, Table, Tbody,
+    Tr, Td, FormControl, Select
+} from "@chakra-ui/react";
+import { useParams, useHistory } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Rating from "../components/Rating";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { listProductDetails } from '../actions/productActions';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 const ProductDetailsPage = () => {
+
+    const [qty, setQty] = useState(1);
+
+    const history = useHistory();
 
     const { id } = useParams();
 
@@ -20,6 +27,11 @@ const ProductDetailsPage = () => {
     useEffect(() => {
         dispatch(listProductDetails(id));
     }, [dispatch, id]);
+
+    const addToCartHandler = () => {
+        history.push(`/cart/${id}?qty=${qty}`);
+        console.log(qty);
+    }
 
     return (
         <Container maxW="container.xl">
@@ -43,7 +55,25 @@ const ProductDetailsPage = () => {
                                     </Tr>
                                 </Tbody>
                             </Table>
-                            <Button isDisabled={product.countInStock < 1}>ADD TO CART</Button>
+                            {product.countInStock > 0 && (
+                                <Table variant="simple">
+                                    <Tbody>
+                                        <Tr>
+                                            <Td>Qty</Td>
+                                            <Td>
+                                                <FormControl id="qty">
+                                                    <Select placeholder="Quantity" value={qty} onChange={(e) => setQty(e.target.value)}>
+                                                        {[...Array(product.countInStock).keys()].map((x) => (
+                                                            <option key={x + 1} value={x + 1}>{x + 1}</option>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Td>
+                                        </Tr>
+                                    </Tbody>
+                                </Table>
+                            )}
+                            <Button onClick={addToCartHandler} isDisabled={product.countInStock < 1}>ADD TO CART</Button>
                             <Text>{product.description}</Text>
                         </VStack>
                     </Flex>
