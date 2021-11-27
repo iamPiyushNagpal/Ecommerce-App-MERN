@@ -6,6 +6,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from './pages/CartPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" exact><HomePage /></Route>
             <Route path="/product/:id"><ProductDetailsPage /></Route>
             <Route path="/cart/:id?" ><CartPage /></Route>
+            <Route path="/login"><LoginPage /></Route>
           </Switch>
         </div>
         <Footer />
