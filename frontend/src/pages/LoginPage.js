@@ -56,7 +56,7 @@ const LoginPage = () => {
                     </FormControl>
                     <Button my={3} width="100%" type="submit">Sign In</Button>
                 </form>
-                <Text>New Customer? <Link as={ReactRouterLink} to="/signup">Click here to Sign Up</Link></Text>
+                <Text>New Customer? <Link as={ReactRouterLink} to="/register">Click here to Sign Up</Link></Text>
             </Box>
 
         </Container>
