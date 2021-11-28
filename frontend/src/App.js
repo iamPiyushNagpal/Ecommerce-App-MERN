@@ -8,6 +8,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/cart/:id?" ><CartPage /></Route>
             <Route path="/login"><LoginPage /></Route>
             <Route path="/register"><RegisterPage /></Route>
+            <Route path="/profile"><ProfilePage /></Route>
           </Switch>
         </div>
         <Footer />
