@@ -22,6 +22,7 @@ const CartPage = () => {
     const { cartItems } = cart;
     console.log(cartItems);
 
+    const history = useHistory();
 
     useEffect(() => {
         if (id) {
@@ -34,7 +35,7 @@ const CartPage = () => {
     }
 
     const checkoutHandler = () => {
-
+        history.push('/shipping');
     }
 
     return (
@@ -46,7 +47,7 @@ const CartPage = () => {
                         <Table variant="simple" >
                             <Tbody>
                                 {cartItems.map((item) => (
-                                    <Tr>
+                                    <Tr key={item.product}>
                                         <Td><Image boxSize={90} src={item.image} /></Td>
                                         <Td><Heading as="h6" size="sm"><Link as={ReactRouterLink} to={`/product/${item.product}`}>{item.name}</Link></Heading></Td>
                                         <Td>{`$ ${item.price}`}</Td>
@@ -60,7 +61,7 @@ const CartPage = () => {
                                             </FormControl>
                                         </Td>
                                         <Td>
-                                            <Button onClick={() => removeFromCartHandler(item.product)}><i class="fa-solid fa-trash"></i></Button>
+                                            <Button onClick={() => removeFromCartHandler(item.product)}><i className="fa-solid fa-trash"></i></Button>
                                         </Td>
                                     </Tr>
                                 ))}
