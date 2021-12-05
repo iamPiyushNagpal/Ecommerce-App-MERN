@@ -2,11 +2,17 @@ import {
     Box, Container, Heading, Button, Flex, Text, Stack, Image, Link, Table, Tbody,
     Tr, Td
 } from "@chakra-ui/react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { createOrder } from '../actions/orderActions';
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const PlaceOrderPage = () => {
+
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const cart = useSelector(state => state.cart);
 
@@ -15,8 +21,25 @@ const PlaceOrderPage = () => {
     cart.taxPrice = Number((0.18 * cart.itemsPrice).toFixed(2));
     cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice);
 
-    const placeOrderHandler = () => {
+    const orderCreate = useSelector(state => state.orderCreate);
+    const { order, success, error } = orderCreate;
 
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`);
+        }
+    }, [history, success])
+
+    const placeOrderHandler = () => {
+        dispatch(createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            itemsPrice: cart.itemsPrice,
+            shippingPrice: cart.shippingPrice,
+            taxPrice: cart.taxPrice,
+            totalPrice: cart.totalPrice
+        }))
     }
 
     return (
@@ -74,6 +97,7 @@ const PlaceOrderPage = () => {
                                 </Tr>
                             </Tbody>
                         </Table>
+                        {error && <Message description={error} status="error" />}
                         <Button onClick={placeOrderHandler}>PLACE ORDER</Button>
                     </Stack>
                 </Box>
