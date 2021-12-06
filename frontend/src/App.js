@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 import ShippingPage from './pages/ShippingPage';
 import PaymentPage from './pages/PaymentScreen';
 import PlaceOrderPage from './pages/PlaceOrderPage';
+import OrderPage from './pages/OrderPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/shipping"><ShippingPage /></Route>
             <Route path="/payment"><PaymentPage /></Route>
             <Route path="/placeorder"><PlaceOrderPage /></Route>
+            <Route path="/order/:id"><OrderPage /></Route>
           </Switch>
         </div>
         <Footer />
