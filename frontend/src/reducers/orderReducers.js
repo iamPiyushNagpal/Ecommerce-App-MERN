@@ -47,7 +47,7 @@ const orderDetailsReducer = (state = { loading: true, orderItems: [], shippingAd
     }
 }
 
-const orderPaidReducer = (state = {}, action) => {
+const orderPayReducer = (state = {}, action) => {
     switch (action.type) {
         case ORDER_PAY_REQUEST:
             return {
@@ -70,4 +70,4 @@ const orderPaidReducer = (state = {}, action) => {
     }
 }
 
-export { orderCreateReducer, orderDetailsReducer, orderPaidReducer };
+export { orderCreateReducer, orderDetailsReducer, orderPayReducer };
