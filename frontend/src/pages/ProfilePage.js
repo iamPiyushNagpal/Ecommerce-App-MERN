@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import {
-    Box, Flex, Container, FormControl, FormLabel, Input, Heading, Button
+    Box, Flex, Container, FormControl, FormLabel, Input, Heading, Button,
+    Table, Thead, Tbody, Tr, Th, Td
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { listMyOrders } from '../actions/orderActions';
 import { useHistory } from "react-router-dom";
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 const ProfilePage = () => {
 
@@ -27,13 +30,17 @@ const ProfilePage = () => {
     const userUpdateProfile = useSelector(state => state.userUpdateProfile);
     const { success } = userUpdateProfile;
 
+    const orderListMy = useSelector(state => state.orderListMy);
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+
     useEffect(() => {
         if (!userInfo) {
             history.push("/login");
         }
         else {
             if (!user.name) {
-                dispatch(getUserDetails('profile'))
+                dispatch(getUserDetails('profile'));
+                dispatch(listMyOrders());
             }
             else {
                 setName(user.name);
@@ -81,7 +88,34 @@ const ProfilePage = () => {
                     </form>
                 </Box>
                 <Box flex={{ lg: "2" }}>
-
+                    <Heading my={5}>My Orders</Heading>
+                    {loadingOrders ? <Loader /> : errorOrders ?
+                        <Message description={errorOrders} status="error" /> : (
+                            <Table variant='simple'>
+                                <Thead>
+                                    <Tr>
+                                        <Th>ID</Th>
+                                        <Th>DATE</Th>
+                                        <Th>TOTAL</Th>
+                                        <Th>PAID</Th>
+                                        <Th>DELIVERED</Th>
+                                        <Th></Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {orders.map(order => (
+                                        <Tr key={order._id}>
+                                            <Td>{order._id}</Td>
+                                            <Td>{order.createdAt.substring(0, 10)}</Td>
+                                            <Td>{order.totalPrice}</Td>
+                                            <Td>{order.isPaid ? order.paidAt.substring(0, 10) : <i className="fa-solid fa-x" style={{ color: "red" }}></i>}</Td>
+                                            <Td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <i className="fa-solid fa-x" style={{ color: "red" }}></i>}</Td>
+                                            <Td><Button as={ReactRouterLink} to={`/order/${order._id}`}>Details</Button></Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        )}
                 </Box>
             </Flex>
         </Container>
