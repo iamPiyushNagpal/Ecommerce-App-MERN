@@ -94,4 +94,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 })
 
-export { login, signup, getUserProfile, updateUserProfile };
+const getUsers = asyncHandler(async (req, res) => {
+    const users = await userModel.find({});
+    res.send(users);
+})
+
+export { login, signup, getUserProfile, updateUserProfile, getUsers };
