@@ -53,6 +53,20 @@ const Header = () => {
                             <Link as={ReactRouterLink} to={`/login`}><i className="fa-solid fa-user"></i> SIGN IN</Link>
                         </Text>
                     }
+                    {userInfo && userInfo.isAdmin && (
+                        <Menu>
+                            < MenuButton as={Button} bgColor="gray.900" color="white"
+                                rightIcon={<i className="fa-solid fa-angle-down"></i>}
+                                _hover={{ bgColor: "none" }}>
+                                {`Admin`}
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem as={ReactRouterLink} to="/admin/userlist">Users</MenuItem>
+                                <MenuItem as={ReactRouterLink} to="/admin/productlist">Products</MenuItem>
+                                <MenuItem as={ReactRouterLink} to="/admin/orderlist">Orders</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    )}
                 </HStack>
             </Flex >
             {isOpen && (
@@ -76,6 +90,20 @@ const Header = () => {
                             <Text color="white">
                                 <Link as={ReactRouterLink} to={`/login`}><i className="fa-solid fa-user"></i> SIGN IN</Link>
                             </Text>}
+                        {userInfo && userInfo.isAdmin && (
+                            <Menu>
+                                < MenuButton as={Button} bgColor="gray.900" color="white"
+                                    rightIcon={<i className="fa-solid fa-angle-down"></i>}
+                                    _hover={{ bgColor: "none" }}>
+                                    {`Admin`}
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem as={ReactRouterLink} to="/admin/userlist">Users</MenuItem>
+                                    <MenuItem as={ReactRouterLink} to="/admin/productlist">Products</MenuItem>
+                                    <MenuItem as={ReactRouterLink} to="/admin/orderlist">Orders</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        )}
                     </VStack>
                 </Box >
             )}
