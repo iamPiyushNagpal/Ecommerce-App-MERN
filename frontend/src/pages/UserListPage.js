@@ -7,17 +7,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { listUsers } from '../actions/userActions';
+import { useHistory } from "react-router-dom";
 
 const UserListPage = () => {
 
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const userList = useSelector(state => state.userList);
     const { loading, error, users } = userList;
 
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+
     useEffect(() => {
-        dispatch(listUsers());
-    }, [dispatch])
+        if (userInfo && userInfo.isAdmin) {
+            dispatch(listUsers());
+        }
+        else {
+            history.push('/login');
+        }
+    }, [dispatch, history])
 
     const deleteHandler = (userId) => {
 
