@@ -14,6 +14,7 @@ import PaymentPage from './pages/PaymentScreen';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
 import UserListPage from './pages/UserListPage';
+import UserEditPage from './pages/UserEditPage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/placeorder"><PlaceOrderPage /></Route>
             <Route path="/order/:id"><OrderPage /></Route>
             <Route path="/admin/userlist"><UserListPage /></Route>
+            <Route path="/admin/user/:id/edit"><UserEditPage /></Route>
           </Switch>
         </div>
         <Footer />

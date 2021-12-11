@@ -30,10 +30,10 @@ const UserListPage = () => {
         else {
             history.push('/login');
         }
-    }, [dispatch, history, successDelete])
+    }, [dispatch, history, successDelete, userInfo])
 
     const deleteHandler = (userId) => {
-        if(window.confirm('Are you sure?'))
+        if (window.confirm('Are you sure?'))
             dispatch(deleteUser(userId));
     }
 
@@ -62,7 +62,7 @@ const UserListPage = () => {
                                         <Td>{user.isAdmin ? <i className="fa-solid fa-check" style={{ color: "green" }}></i>
                                             : <i className="fa-solid fa-x" style={{ color: "red" }}></i>}</Td>
                                         <Td>
-                                            <Button as={ReactRouterLink} to={`/user/${user._id}/edit`}><i className="fa-solid fa-edit"></i></Button>
+                                            <Button as={ReactRouterLink} to={`/admin/user/${user._id}/edit`}><i className="fa-solid fa-edit"></i></Button>
                                             <Button onClick={() => deleteHandler(user._id)}><i className="fa-solid fa-trash"></i></Button>
                                         </Td>
                                     </Tr>
