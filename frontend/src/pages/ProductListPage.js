@@ -6,7 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
 import { useHistory } from "react-router-dom";
 
 const ProductListPage = () => {
@@ -16,6 +16,9 @@ const ProductListPage = () => {
 
     const productList = useSelector(state => state.productList);
     const { loading, error, products } = productList;
+
+    const productDelete = useSelector(state => state.productDelete);
+    const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
 
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
@@ -27,10 +30,11 @@ const ProductListPage = () => {
         else {
             history.push('/login');
         }
-    }, [dispatch, history, userInfo])
+    }, [dispatch, history, userInfo, successDelete])
 
-    const deleteHandler = (userId) => {
-
+    const deleteHandler = (productId) => {
+        if (window.confirm('Are you sure?'))
+            dispatch(deleteProduct(productId));
     }
 
     const createProductHandler = (product) => {
@@ -44,6 +48,8 @@ const ProductListPage = () => {
                     <Heading>Products</Heading>
                     <Button onClick={createProductHandler} leftIcon={<i className="fa-solid fa-plus"></i>}>ADD PRODUCT</Button>
                 </HStack>
+                {loadingDelete && <Loader />}
+                {errorDelete && <Message description={errorDelete} status="error" />}
                 {loading ? <Loader /> : error ?
                     <Message description={error} status="error" /> : (
                         <Table variant='simple'>
