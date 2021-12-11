@@ -6,8 +6,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetails, updateProduct } from '../actions/productActions';
 import { useParams, useHistory } from "react-router-dom";
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditPage = () => {
 
@@ -27,8 +28,16 @@ const ProductEditPage = () => {
     const productDetails = useSelector(state => state.productDetails);
     const { loading, error, product } = productDetails;
 
+    const productUpdate = useSelector(state => state.productUpdate);
+    const { loading: loadingUpdate, error: errorUpdate,
+        success: successUpdate } = productUpdate;
+
     useEffect(() => {
-        {
+        if (successUpdate) {
+            dispatch({ type: PRODUCT_UPDATE_RESET });
+            history.push('/admin/productlist');
+        }
+        else {
             if (!product.name || product._id !== productId) {
                 dispatch(listProductDetails(productId))
             }
@@ -42,11 +51,20 @@ const ProductEditPage = () => {
                 setDescription(product.description);
             }
         }
-    }, [dispatch, history, productId, product])
+    }, [dispatch, history, productId, product, successUpdate])
 
     const submitHandler = (e) => {
         e.preventDefault();
-
+        dispatch(updateProduct({
+            _id: productId,
+            name,
+            price,
+            image,
+            brand,
+            category,
+            description,
+            countInStock
+        }))
     }
 
     return (
@@ -54,6 +72,8 @@ const ProductEditPage = () => {
             <Box maxW="450px" mx="auto">
                 <Button as={ReactRouterLink} to={"/admin/productlist"} leftIcon={<i class="fa-solid fa-arrow-left"></i>} mt={7}>GO BACK</Button>
                 <Heading my={5}>Edit Product</Heading>
+                {loadingUpdate && <Loader />}
+                {errorUpdate && <Message description={errorUpdate} status="error" />}
                 {loading ? <Loader /> :
                     error ? <Message status="error" description={error} /> : (
                         <form onSubmit={submitHandler}>
