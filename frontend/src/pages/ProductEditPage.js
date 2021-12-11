@@ -9,6 +9,7 @@ import Message from "../components/Message";
 import { listProductDetails, updateProduct } from '../actions/productActions';
 import { useParams, useHistory } from "react-router-dom";
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
+import axios from 'axios';
 
 const ProductEditPage = () => {
 
@@ -19,6 +20,7 @@ const ProductEditPage = () => {
     const [category, setCategory] = useState("");
     const [countInStock, setCountInStock] = useState(0);
     const [description, setDescription] = useState("");
+    const [uploading, setUploading] = useState(false);
 
     const { id: productId } = useParams();
     const history = useHistory();
@@ -67,6 +69,27 @@ const ProductEditPage = () => {
         }))
     }
 
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', file);
+        setUploading(true);
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+
+            const { data } = await axios.post('/api/upload', formData, config);
+            setImage(data);
+            setUploading(false);
+        } catch (error) {
+            console.log(error);
+            setUploading(false);
+        }
+    }
+
     return (
         <Container maxW="container.sm">
             <Box maxW="450px" mx="auto">
@@ -97,6 +120,11 @@ const ProductEditPage = () => {
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
                                 />
+                                <Input
+                                    type='file'
+                                    onChange={uploadFileHandler}
+                                />
+                                {uploading && <Loader />}
                             </FormControl>
                             <FormControl id="brand">
                                 <FormLabel>Brand</FormLabel>
