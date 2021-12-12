@@ -5,8 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { useParams } from "react-router-dom";
 
 const HomePage = () => {
+
+    const { keyword } = useParams();
+    console.log(keyword);
 
     const dispatch = useDispatch();
 
@@ -14,8 +18,8 @@ const HomePage = () => {
     const { loading, error, products } = productList;
 
     useEffect(() => {
-        dispatch(listProducts());
-    }, [dispatch]);
+        dispatch(listProducts(keyword));
+    }, [dispatch, keyword]);
 
     return (
         <Container maxW="container.xl">

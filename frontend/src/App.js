@@ -27,6 +27,7 @@ function App() {
         <div className="main">
           <Switch>
             <Route path="/" exact><HomePage /></Route>
+            <Route path="/search/:keyword" ><HomePage /></Route>
             <Route path="/product/:id"><ProductDetailsPage /></Route>
             <Route path="/cart/:id?" ><CartPage /></Route>
             <Route path="/login"><LoginPage /></Route>

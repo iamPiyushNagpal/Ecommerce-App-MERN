@@ -6,6 +6,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
+import SearchBox from "./SearchBox";
 
 const Header = () => {
 
@@ -34,6 +35,7 @@ const Header = () => {
                 <Box color="white">
                     <Link as={ReactRouterLink} to={"/"}><Heading size="md">LOGO</Heading></Link>
                 </Box>
+                <SearchBox />
                 <HStack display={{ base: "none", md: "flex" }} spacing="20px">
                     <Text color="white">
                         <Link as={ReactRouterLink} to={`/cart`}><i className="fa-solid fa-cart-shopping"></i> CART</Link>
