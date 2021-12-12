@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import morgan from 'morgan';
 import './config/env.js';
 import './database/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
@@ -13,6 +14,9 @@ const port = process.env.PORT;
 const app = express();
 
 app.use(express.json());
+if (process.env.NODE_ENV == 'development') {
+    app.use(morgan('dev'));
+}
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
