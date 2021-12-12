@@ -1,20 +1,21 @@
 import {
     Box, Container, Heading, Flex, Text, Stack, Image, Link, Table, Tbody,
-    Tr, Td
+    Tr, Td, Button
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
+import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants';
 
 const OrderPage = () => {
 
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const { id } = useParams();
@@ -27,11 +28,20 @@ const OrderPage = () => {
     const orderPay = useSelector(state => state.orderPay);
     const { loading: loadingPay, success: successPay } = orderPay;
 
+    const orderDeliver = useSelector(state => state.orderDeliver);
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+
     if (!loading) {
         order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
     }
 
     useEffect(() => {
+        if (!userInfo) {
+            history.push("/login");
+        }
         const addPaypalScript = async () => {
             const { data: clientId } = await axios.get('/api/config/paypal');
             const script = document.createElement('script');
@@ -44,8 +54,9 @@ const OrderPage = () => {
             document.body.appendChild(script);
         }
 
-        if (!order || successPay) {
+        if (!order || successPay || successDeliver) {
             dispatch({ type: ORDER_PAY_RESET });
+            dispatch({ type: ORDER_DELIVER_RESET });
             dispatch(getOrderDetails(id));
         }
         else if (!order.isPaid) {
@@ -57,7 +68,11 @@ const OrderPage = () => {
             }
         }
 
-    }, [dispatch, id, successPay, order])
+    }, [dispatch, id, successPay, order, successDeliver])
+
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order));
+    }
 
 
     const successPaymentHandler = (paymentResult) => {
@@ -138,6 +153,14 @@ const OrderPage = () => {
                                             onSuccess={successPaymentHandler}
                                         />
                                     )}
+                                </Box>
+                            )}
+                            {loadingDeliver && <Loader />}
+                            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <Box>
+                                    <Button width="100%" onClick={deliverHandler}>
+                                        MARK AS DELIVERED
+                                    </Button>
                                 </Box>
                             )}
                         </Stack>
