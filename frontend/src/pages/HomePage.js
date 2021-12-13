@@ -6,6 +6,7 @@ import { listProducts } from '../actions/productActions';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useParams } from "react-router-dom";
+import Meta from "../components/Meta";
 
 const HomePage = () => {
 
@@ -23,6 +24,7 @@ const HomePage = () => {
 
     return (
         <Container maxW="container.xl">
+            <Meta />
             {loading ? <Loader /> : error ? <Message status="error" description={error} /> :
                 <Flex flexWrap="wrap" justify="space-between" mx="auto">
                     {products.map((product) => (
