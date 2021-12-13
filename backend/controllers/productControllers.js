@@ -109,7 +109,12 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
 })
 
+const getTopProducts = asyncHandler(async (req, res) => {
+    const products = await productModel.find({}).sort({ rating: -1 }).limit(3);
+    res.send(products);
+})
+
 export {
     getProducts, getProductById, deleteProduct, createProduct, updateProduct,
-    createProductReview
+    createProductReview, getTopProducts
 }
