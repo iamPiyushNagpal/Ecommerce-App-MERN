@@ -72,7 +72,7 @@ const ProductDetailsPage = () => {
                     <Flex direction={{ base: "column", lg: "row" }} alignItems={{ base: "center", lg: "flex-start" }} my={7}>
 
                         <Box flex={{ lg: "1" }} >
-                            <Image src={product.image} boxSize={{ base: "400px", lg: "100%" }} />
+                            <Image src={product.image} maxW={350} mx={{ lg: 'auto' }} />
                             <Box my={5}>
                                 <Heading mb={5}>Reviews</Heading>
                                 {product.reviews.length === 0 && <Message description="No Reviews" />}
