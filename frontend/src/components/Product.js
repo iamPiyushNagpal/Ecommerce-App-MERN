@@ -8,7 +8,7 @@ const Product = ({ product }) => {
             <Link as={ReactRouterLink} to={`/product/${product._id}`}><Image src={product.image} /></Link>
             <Heading as="h4" size="md" mt={2}><Link as={ReactRouterLink} to={`/product/${product._id}`}>{product.name}</Link></Heading>
             <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-            <Heading size="lg" mt={1}>{product.price}</Heading>
+            <Heading size="lg" mt={1}>{`$ ${product.price}`}</Heading>
         </Box>
     )
 }
