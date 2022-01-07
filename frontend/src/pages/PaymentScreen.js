@@ -37,9 +37,9 @@ const PaymentPage = () => {
                                 <Radio
                                     value='Paypal'
                                 >PayPal or Credit Card</Radio>
-                                <Radio
+                                {/* <Radio
                                     value='Stripe'
-                                >Stripe</Radio>
+                                >Stripe</Radio> */}
                             </VStack>
                         </RadioGroup>
                     </FormControl>
