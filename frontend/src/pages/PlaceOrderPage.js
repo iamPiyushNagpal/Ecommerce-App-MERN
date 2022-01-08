@@ -8,6 +8,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { createOrder } from '../actions/orderActions';
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 
 const PlaceOrderPage = () => {
 
@@ -27,6 +28,7 @@ const PlaceOrderPage = () => {
     useEffect(() => {
         if (success) {
             history.push(`/order/${order._id}`);
+            dispatch({ type: ORDER_CREATE_RESET })
         }
     }, [history, success])
 

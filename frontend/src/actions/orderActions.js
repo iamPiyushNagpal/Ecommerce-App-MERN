@@ -3,8 +3,10 @@ import {
     ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL,
     ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL,
     ORDER_LIST_MY_REQUEST, ORDER_LIST_MY_SUCCESS, ORDER_LIST_MY_FAIL,
-    ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_LIST_FAIL, ORDER_DELIVER_REQUEST, ORDER_DELIVER_SUCCESS, ORDER_DELIVER_FAIL
+    ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS, ORDER_LIST_FAIL, ORDER_DELIVER_REQUEST,
+    ORDER_DELIVER_SUCCESS, ORDER_DELIVER_FAIL
 } from '../constants/orderConstants';
+import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
 import axios from 'axios';
 
 const createOrder = (order) => async (dispatch, getState) => {
@@ -31,6 +33,12 @@ const createOrder = (order) => async (dispatch, getState) => {
             type: ORDER_CREATE_SUCCESS,
             payload: data
         })
+
+        dispatch({
+            type: CART_CLEAR_ITEMS,
+            payload: data,
+        })
+        localStorage.removeItem('cartItems');
     } catch (error) {
         dispatch({
             type: ORDER_CREATE_FAIL,
