@@ -39,28 +39,28 @@ const ShippingPage = () => {
             <Box maxW="450px" mx="auto">
                 <Heading my={5}>Shipping</Heading>
                 <form onSubmit={submitHandler}>
-                    <FormControl id="address">
+                    <FormControl id="address" isRequired>
                         <FormLabel>Address</FormLabel>
                         <Input placeholder="Enter Address"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                         />
                     </FormControl>
-                    <FormControl id="city">
+                    <FormControl id="city" isRequired>
                         <FormLabel>City</FormLabel>
                         <Input placeholder="Enter City"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         />
                     </FormControl>
-                    <FormControl id="postalCode">
+                    <FormControl id="postalCode" isRequired>
                         <FormLabel>Postal Code</FormLabel>
                         <Input placeholder="Enter Postal Code"
                             value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value)}
                         />
                     </FormControl>
-                    <FormControl id="country">
+                    <FormControl id="country" isRequired>
                         <FormLabel>Country</FormLabel>
                         <Input placeholder="Enter Country"
                             value={country}
